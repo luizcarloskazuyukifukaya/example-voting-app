@@ -45,15 +45,15 @@ jobs:
       ### tell docker where to push.
       ### NOTE if Docker Hub is set to true, you must set secrets above and also add account/repo/tags below
       dockerhub-enable: true
-      ghcr-enable: true
+      ghcr-enable: false
 
       ### REQUIRED 
       ### A list of the account/repo names for docker build. List should match what's enabled above
       ### defaults to:
       image-names: |
-        ghcr.io/luizcarloskazuyukifukaya/worker:dev
-        luizcarloskazuyukifukaya/worker:dev
+        luizcarloskazuyukifukaya/worker
       
+      #  ghcr.io/luizcarloskazuyukifukaya/worker
       ### REQUIRED set rules for tagging images, based on special action syntax:
       ### https://github.com/docker/metadata-action#tags-input
       ### defaults to:
@@ -75,8 +75,8 @@ jobs:
       ### other options: linux/amd64,linux/arm64,linux/arm/v7
       # FIXME worker arm/v7 support doesn't build in .net core 3.1 with QEMU
       # a fix would likely run the .net build on amd64 but with a target of arm/v7
-      platforms: linux/amd64,linux/arm64,linux/arm/v7
+      # platforms: linux/amd64,linux/arm64,linux/arm/v7
       
       ### Create a PR comment with image tags and labels
       ### defaults to false
-      # comment-enable: false
+      comment-enable: true
