@@ -52,6 +52,12 @@ jobs:
         # via gcloud command-line tool.
         gcloud auth configure-docker -q
 
+    # Install gke-gcloud-auth-plugin
+    # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+    - name: Install gke-gcloud-auth-plugin
+      run: |
+        gcloud components install gke-gcloud-auth-plugin -q
+    
     # Install helm
     - name: Install Helm
       run: |
