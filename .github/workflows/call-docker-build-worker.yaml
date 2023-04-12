@@ -5,14 +5,14 @@ on:
   # we want pull requests so we can build(test) but not push to image registry
   push:
     branches:
-      - 'main'
+      - 'dev'
     # only build when important files change
     paths:
       - 'worker/**'
       - '.github/workflows/call-docker-build-worker.yaml'
   pull_request:
     branches:
-      - 'main'
+      - 'dev'
     # only build when important files change
     paths:
       - 'worker/**'
@@ -51,8 +51,8 @@ jobs:
       ### A list of the account/repo names for docker build. List should match what's enabled above
       ### defaults to:
       image-names: |
-        ghcr.io/dockersamples/example-voting-app-worker
-        dockersamples/examplevotingapp_worker
+        ghcr.io/luizcarloskazuyukifukaya/worker:dev
+        luizcarloskazuyukifukaya/worker:dev
       
       ### REQUIRED set rules for tagging images, based on special action syntax:
       ### https://github.com/docker/metadata-action#tags-input
