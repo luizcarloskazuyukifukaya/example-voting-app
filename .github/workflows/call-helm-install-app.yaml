@@ -54,8 +54,6 @@ jobs:
     - name: 'Install Helm'
       run: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-        helm list
-
     
     # Config GKE cluster to be accessed with kubectl/helm
     - name: 'Set kubernetes context'
@@ -70,6 +68,7 @@ jobs:
     - name: 'Deploy application with helm'
       run: |
         #helm install $GKE_APP_NAME ./helm
+        helm list
         chmod +x ./helm/install-helm.sh
         ./helm/install-helm.sh
         kubectl get all
