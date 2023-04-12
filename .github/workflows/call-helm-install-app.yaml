@@ -56,15 +56,22 @@ jobs:
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
         helm list
 
-    # Deploy the Docker image to the GKE cluster
-    - name: 'Deploy'
+    
+    # Config GKE cluster to be accessed with kubectl/helm
+    - name: 'Set kubernetes context'
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER \
           --region $GKE_REGION \
           --project $GKE_PROJECT
-        echo 'Node External IP Addresses:'
-        kubectl get nodes -o wide | awk '{print $7}'
+        kubectl config get-contexts
+        kubectl config current-context
+
+    # Deploy the Docker image to the GKE cluster
+    - name: 'Deploy application with helm'
+      run: |
         #helm install $GKE_APP_NAME ./helm
         chmod +x ./helm/install-helm.sh
         ./helm/install-helm.sh
         kubectl get all
+        echo 'Node External IP Addresses:'
+        kubectl get nodes -o wide | awk '{print $7}'
