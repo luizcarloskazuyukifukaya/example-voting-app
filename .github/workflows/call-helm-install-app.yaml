@@ -15,6 +15,7 @@ env:
   GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
   GKE_REGION: us-central1
   GKE_CLUSTER: luiz-devops-cicd-k8s
+  GKE_APP_NAME: voting-app
 
 jobs:
   setup-build-publish-deploy:
@@ -34,42 +35,36 @@ jobs:
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v1'
 
-    # Setup gcloud CLI
-    #- uses: GoogleCloudPlatform/github-actions/setup-gcloud@v1
-    #  with:
-    #    version: '270.0.0'
-    #    #version: '>= 363.0.0'
-    #    service_account_email: ${{ secrets.GKE_EMAIL }}
-    #    service_account_key: ${{ secrets.GKE_KEY }}
-    
     # https://github.com/google-github-actions/setup-gcloud
-    - name: Use gcloud CLI'
+    - name: 'Use gcloud CLI'
       run: 'gcloud info'
 
     # Configure docker to use the gcloud command-line tool as a credential helper
-    - run: |
-        # Set up docker to authenticate
-        # via gcloud command-line tool.
+    - name: 'Set up docker to authenticate via gcloud' 
+      run: |
         gcloud auth configure-docker -q
 
     # Install gke-gcloud-auth-plugin
     # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
-    - name: Install gke-gcloud-auth-plugin
+    - name: 'Install gke-gcloud-auth-plugin'
       run: |
         gcloud components install gke-gcloud-auth-plugin -q
     
     # Install helm
-    - name: Install Helm
+    - name: 'Install Helm'
       run: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+        helm list
 
     # Deploy the Docker image to the GKE cluster
-    - name: Deploy
+    - name: 'Deploy'
       run: |
         gcloud container clusters get-credentials $GKE_CLUSTER \
           --region $GKE_REGION \
           --project $GKE_PROJECT
-        helm list
-        #"kubectl get nodes -o wide | awk '{print $7}'"
+        echo 'Node External IP Addresses:'
         kubectl get nodes -o wide | awk '{print $7}'
-        which awk
+        #helm install $GKE_APP_NAME ./helm
+        chmod +x ./helm/install-helm.sh
+        ./helm/install-helm.sh
+        kubectl get all
