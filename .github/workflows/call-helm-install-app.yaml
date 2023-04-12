@@ -70,4 +70,6 @@ jobs:
           --region $GKE_REGION \
           --project $GKE_PROJECT
         helm list
-        "kubectl get nodes -o wide | awk '{print $7}'"
+        #"kubectl get nodes -o wide | awk '{print $7}'"
+        kubectl get nodes -o wide
+        which awk
