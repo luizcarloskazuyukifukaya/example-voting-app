@@ -1,0 +1,51 @@
+# https://medium.com/@onefabulousginger/using-github-actions-to-deploy-to-gke-with-helm-81855414db0b
+
+# This workflow will build a docker container, publish it to Google Container Registry, and deploy it to GKE when a release is created
+
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches:
+      - 'dev'
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GKE_PROJECT: luiz-devops-cicd
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GKE_REGION: us-uscentral1
+  GKE_CLUSTER: luiz-devops-cicd-k8s
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@master
+
+    # Setup gcloud CLI
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GKE_EMAIL }}
+        service_account_key: ${{ secrets.GKE_KEY }}
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - run: |
+        # Set up docker to authenticate
+        # via gcloud command-line tool.
+        gcloud auth configure-docker
+    # Install helm
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+    # Deploy the Docker image to the GKE cluster
+    - name: Deploy
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER \
+          --region $GKE_REGION \
+          --project $GKE_PROJECT
+        helm list
+        kubectl get nodes -o wide
