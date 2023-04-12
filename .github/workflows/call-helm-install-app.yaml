@@ -71,5 +71,5 @@ jobs:
           --project $GKE_PROJECT
         helm list
         #"kubectl get nodes -o wide | awk '{print $7}'"
-        kubectl get nodes -o wide
+        kubectl get nodes -o wide | awk '{print $7}'
         which awk
