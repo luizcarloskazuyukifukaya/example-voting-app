@@ -26,21 +26,27 @@ jobs:
       uses: actions/checkout@master
 
     # Setup gcloud CLI
-    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+    - uses: GoogleCloudPlatform/github-actions/setup-gcloud@v1.1.0
       with:
-        version: '270.0.0'
+        version: '>= 363.0.0'
         service_account_email: ${{ secrets.GKE_EMAIL }}
         service_account_key: ${{ secrets.GKE_KEY }}
+    
+    # https://github.com/google-github-actions/setup-gcloud
+    - name: Use gcloud CLI'
+      run: 'gcloud info'
 
     # Configure docker to use the gcloud command-line tool as a credential helper
     - run: |
         # Set up docker to authenticate
         # via gcloud command-line tool.
         gcloud auth configure-docker
+
     # Install helm
     - name: Install Helm
       run: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
     # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |
@@ -48,4 +54,4 @@ jobs:
           --region $GKE_REGION \
           --project $GKE_PROJECT
         helm list
-        kubectl get nodes -o wide
+        "kubectl get nodes -o wide | awk '{print $7}'"
