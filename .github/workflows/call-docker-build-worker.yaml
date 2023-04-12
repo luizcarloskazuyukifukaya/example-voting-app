@@ -18,7 +18,7 @@ on:
       - 'worker/**'
       - '.github/workflows/call-docker-build-worker.yaml'
 jobs:
-  build:
+  build worker:
     runs-on: ubuntu-latest
     steps:
       -
