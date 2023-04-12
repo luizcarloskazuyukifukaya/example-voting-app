@@ -63,7 +63,13 @@ jobs:
         chmod 700 get_helm.sh
         ./get_helm.sh
 
-    
+        # Install using packet manager (Ubuntu)
+        #curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+        #sudo apt-get install apt-transport-https --yes
+        #echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+        #sudo apt-get update
+        #sudo apt-get install helm
+
     # Config GKE cluster to be accessed with kubectl/helm
     - name: 'Set kubernetes context'
       run: |
@@ -76,10 +82,10 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: 'Deploy application with helm'
       run: |
-        #helm install $GKE_APP_NAME ./helm
         helm list
         chmod +x ./helm/install-helm.sh
         ./helm/install-helm.sh
+        #helm install $GKE_APP_NAME ./helm
         kubectl get all
         echo 'Node External IP Addresses:'
         kubectl get nodes -o wide | awk '{print $7}'
