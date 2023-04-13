@@ -12,13 +12,13 @@ on:
     types:
       - completed
 
-  push:
-    branches:
-      - 'dev'
-    # only when the workflow is modified
-    paths:
-      - 'seed-data/**'
-      - '.github/workflows/call-seed-data.yaml'
+#  push:
+#    branches:
+#      - 'dev'
+#    # only when the workflow is modified
+#    paths:
+#      - 'seed-data/**'
+#      - '.github/workflows/call-seed-data.yaml'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
@@ -26,8 +26,8 @@ env:
   GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
   GKE_REGION: us-central1
   GKE_CLUSTER: luiz-devops-cicd-k8s
-  GKE_VOTE_GLB_NAME: vote-extlb
-  GKE_RESULT_GLB_NAME: result-extlb
+  K8S_VOTE_GLB_NAME: vote-extlb
+  K8S_RESULT_GLB_NAME: result-extlb
 
 jobs:
   setup-runner-to-access-k8s:
@@ -87,6 +87,14 @@ jobs:
         echo 'INFORMATION TO ACCESS THE APPLICATION'
         chmod 700 ./helm/show-url.sh
         ./helm/show-url.sh
+        echo 'awk help ...'
+        awk --help
+        echo 'Define variables to access the servers dynamically...'
+        export VOTE_IP=$(kubectl get svc $K8S_VOTE_GLB_NAME --no-headers | awk '{print $4}')
+        export RESULT_IP=$(kubectl get svc $K8S_RESULT_GLB_NAME --no-headers | awk '{print $4}')
+        echo $VOTE_IP
+        echo $RESULT_IP
+        echo 'Vote LoadBalancer and Result LoadBalancer determined.'
 
     ##################################################
     # Seed data to the target vote server
@@ -94,6 +102,7 @@ jobs:
       run: |
         echo 'Preparing dummy data for test ...'
         echo 'Data created!'
+        echo 'Accessing $VOTE_IP now ...'
         echo 'feeding data now ....'
         echo 'done!!'
 
