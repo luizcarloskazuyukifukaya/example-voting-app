@@ -10,9 +10,9 @@ on:
     branches: [dev]
     types:
       - completed
-  push:
-    branches:
-      - 'dev'
+#  push:
+#    branches:
+#      - 'dev'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
