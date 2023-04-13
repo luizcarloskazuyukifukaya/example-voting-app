@@ -55,5 +55,5 @@ jobs:
           context: ./vote
           #file: ./vote/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/vote:dev
+          #tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/vote:dev

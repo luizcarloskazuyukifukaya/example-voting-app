@@ -55,5 +55,5 @@ jobs:
           context: ./result
           #file: ./result/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/result:dev
+          #tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/result:dev
