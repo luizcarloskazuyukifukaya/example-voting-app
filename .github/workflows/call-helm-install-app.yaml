@@ -20,6 +20,7 @@ on:
       - 'dev'
     # only when the workflow is modified
     paths:
+      - 'helm/**'
       - '.github/workflows/call-helm-install-app.yaml'
 
 # Environment variables available to all jobs and steps in this workflow
