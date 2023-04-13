@@ -18,6 +18,8 @@
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "helm.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:80
-  kubectl get svc vote-{{ .Release.Name }} --no-headers
-  kubectl get svc result-{{ .Release.Name }} --no-headers
+  export VOTE_GLB=$(kubectl get svc vote-extlb --no-headers | awk '{print $4}'
+  echo "Visit http://$VOTE_GLB"
+  export RESULT_GLB=$(kubectl get svc result-extlb --no-headers | awk '{print $4}'
+  echo "Visit http://$RESULT_GLB"
 {{- end }}
