@@ -11,6 +11,7 @@ The changes to the original release are as the followings:
 - Use of the docker image published by luizcarloskazuyukifukaya (Kazuyuki
   Fukaya)
 - Helm Charts support so the application can be installed with helm command
+- External Load Balancer is introduced for the vote and result web access
 
 The following aspect for the enhancement of the microservices architecture are
 not included in the application design/implementation/release:
@@ -90,6 +91,18 @@ There are 4 workflows defined:
 
 If you are new to GitHub Actions, please refer to the [Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions).
 
+## Google Cloud Platform (GCP) Organization Policies
+
+As default, for security reason, the project you create inherit the default
+Organization Policies which cause error in creating the Global Load Balancer
+(kubernetes LoadBalancer). Thus, the target project should be configured to
+allow the creation of the Global Load Balancer when the application is
+deployed. Details are explained [here](https://cloud.google.com/load-balancing/docs/org-policy-constraints).
+
+The following is the actual Organization Policy that should be modified.
+```
+constraints/compute.restrictLoadBalancerCreationForTypes
+```
 
 ## Architecture
 
