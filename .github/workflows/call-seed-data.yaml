@@ -101,9 +101,13 @@ jobs:
     - name: 'Prepare dummy data and feeding to the Vote URL'
       run: |
         echo 'Preparing dummy data for test ...'
+        echo 'Install tools for data manupulation ...'
+        apt-get update
+        apt-get install -y --no-install-recommends apache2-utils
+        rm -rf /var/lib/apt/lists/*
+        python ./seed-data/make-data.py
         echo 'Data created!'
         echo 'Accessing $VOTE_IP now ...'
         echo 'feeding data now ....'
+        ./seed-data/generate-votes.sh
         echo 'done!!'
-
-
