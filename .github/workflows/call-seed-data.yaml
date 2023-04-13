@@ -1,0 +1,100 @@
+# https://medium.com/@onefabulousginger/using-github-actions-to-deploy-to-gke-with-helm-81855414db0b
+
+# This workflow will build a docker container, publish it to Google Container Registry, and deploy it to GKE when a release is created
+
+name: 'Feed data'
+
+on:
+  workflow_run:
+    workflows: |
+      - 'Build and Deploy to GKE'
+    #branches: [dev]
+    types:
+      - completed
+
+  push:
+    branches:
+      - 'dev'
+    # only when the workflow is modified
+    paths:
+      - 'seed-data/**'
+      - '.github/workflows/call-seed-data.yaml'
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  GKE_PROJECT: luiz-devops-cicd
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  GKE_REGION: us-central1
+  GKE_CLUSTER: luiz-devops-cicd-k8s
+  GKE_VOTE_GLB_NAME: vote-extlb
+  GKE_RESULT_GLB_NAME: result-extlb
+
+jobs:
+  setup-runner-to-access-k8s:
+    name: Setup Runner
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@master
+
+    # https://github.com/google-github-actions/setup-gcloud#Authorization
+    - id: 'auth'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.GKE_KEY}}'
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v1'
+
+    # https://github.com/google-github-actions/setup-gcloud
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info'
+
+    # Configure docker to use the gcloud command-line tool as a credential helper
+    - name: 'Set up docker to authenticate via gcloud' 
+      run: |
+        gcloud auth configure-docker -q
+
+    # Install gke-gcloud-auth-plugin
+    # https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke
+    - name: 'Install gke-gcloud-auth-plugin'
+      run: |
+        gcloud components install gke-gcloud-auth-plugin -q
+    
+    # Config GKE cluster to be accessed with kubectl/helm
+    - name: 'Set kubernetes context'
+      run: |
+        gcloud container clusters get-credentials $GKE_CLUSTER \
+          --region $GKE_REGION \
+          --project $GKE_PROJECT
+        kubectl config get-contexts
+        kubectl config current-context
+
+    # Show kubernetes information
+    - name: 'Show kubernetes cluster information'
+      run: |
+        helm list
+        kubectl get all
+        echo 'Node External IP Addresses:'
+        kubectl get nodes -o wide | awk '{print $7}'
+        echo 'ALL kubernetes services'
+        kubectl get svc -o wide
+    
+    # Show URL information
+    - name: 'Show URL information'
+      run: |
+        echo 'INFORMATION TO ACCESS THE APPLICATION'
+        chmod 700 ./helm/show-url.sh
+        ./helm/show-url.sh
+
+    ##################################################
+    # Seed data to the target vote server
+    - name: 'Prepare dummy data and feeding to the Vote URL'
+      run: |
+        echo 'Preparing dummy data for test ...'
+        echo 'Data created!'
+        echo 'feeding data now ....'
+        echo 'done!!'
+
+
