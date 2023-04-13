@@ -1,4 +1,4 @@
-name: Build Result docker image
+name: 'Build Result docker image'
 # https://docs.docker.com/build/ci/github-actions/
 
 on:
