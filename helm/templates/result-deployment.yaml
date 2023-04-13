@@ -17,6 +17,7 @@ spec:
       containers:
       #- image: dockersamples/examplevotingapp_result
       - image: luizcarloskazuyukifukaya/result:dev
+        imagePullPolicy: Always #IMPORTANT to always pull new updated image
         name: result
         ports:
         - containerPort: 80

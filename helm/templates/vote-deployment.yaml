@@ -17,6 +17,7 @@ spec:
       containers:
       #- image: dockersamples/examplevotingapp_vote
       - image: luizcarloskazuyukifukaya/vote:dev
+        imagePullPolicy: Always # IMPORTANT to always pull updated image
         name: vote
         ports:
         - containerPort: 80
