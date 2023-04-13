@@ -82,6 +82,12 @@ be realized without building the infrastructure needed.
 The GitHub Actions workflow is configured to work with the <b>"dev" branch</b> only.
 This is to avoid conflict with the automation implemented with Jenkins, where the "main" branch is used.
 
+There are 4 workflows defined:
+* Workflow to build docker image for "result" module
+* Workflow to build docker image for "vote" module
+* Workflow to build docker image for "worker" module
+* Workflow to deploy helm chart to the target kubernetes cluster
+
 If you are new to GitHub Actions, please refer to the [Understanding GitHub Actions](https://docs.github.com/en/actions/learn-github-actions/understanding-github-actions).
 
 
