@@ -86,10 +86,17 @@ jobs:
     # Deploy the Docker image to the GKE cluster
     - name: 'Deploy application with helm'
       run: |
+        echo 'BEFORE helm install'
         helm list
+        ls -al ./helm
+        ls -al ./helm/templates
         chmod +x ./helm/install-helm.sh
         ./helm/install-helm.sh
         #helm install $GKE_APP_NAME ./helm
+        echo 'AFTER helm intall'
         kubectl get all
         echo 'Node External IP Addresses:'
         kubectl get nodes -o wide | awk '{print $7}'
+        helm list
+        echo 'ALL kubernetes services'
+        kubectl get svc -o wide
