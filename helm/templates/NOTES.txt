@@ -15,9 +15,9 @@
   export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "helm.fullname" . }} --template "{{"{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}"}}")
   echo http://$SERVICE_IP:{{ .Values.service.port }}
 {{- else if contains "ClusterIP" .Values.service.type }}
-  export VOTE_GLB=$(kubectl get svc vote-extlb --no-headers | awk '`{print $4`}'
+  "export VOTE_GLB=$(kubectl get svc vote-extlb --no-headers | awk '{print $4}')"
   echo "Visit http://$VOTE_GLB"
-  export RESULT_GLB=$(kubectl get svc result-extlb --no-headers | awk '`{print $4`}'
+  "export RESULT_GLB=$(kubectl get svc result-extlb --no-headers | awk '{print $4}')"
   echo "Visit http://$RESULT_GLB"
 {{- else }}
   export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "helm.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
