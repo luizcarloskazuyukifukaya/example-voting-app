@@ -11,15 +11,16 @@ on:
       - 'Build Vote docker image'
       - 'Build Worker docker image'
     #workflows: [Build Result docker image,Build Vote docker image,Build Worker docker image]
-    branches: [dev]
+    #branches: [dev]
     types:
       - completed
+
   push:
     branches:
       - 'dev'
     # only when the workflow is modified
     paths:
-      - '.github/workflows/call-docker-build-vote.yaml'
+      - '.github/workflows/call-helm-install-app.yaml'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
