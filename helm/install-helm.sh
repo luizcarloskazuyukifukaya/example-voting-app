@@ -19,7 +19,9 @@ then
 else
 
   # Uninstall previous Helm Chart
+  echo "uninstalling previous Helm Chart ..."
   helm uninstall woven-challenge
+  echo "uninstall completed!!"
   helm list
 
 fi
@@ -27,9 +29,12 @@ fi
 #show current directory
 pwd
 
+echo "Now, we will install the NEW UPDATED Helm Chart ..."
 #helm install woven-challenge ./helm -n challenge
-helm install woven-challenge ./helm
+#helm install woven-challenge ./helm
+helm upgrade --install --atomic --timeout 300s woven-challenge ./helm
 
+echo "NEW UPDATED Helm Chart installed!!"
 # list installed helm chart
 #helm list -n challenge
 helm list 
