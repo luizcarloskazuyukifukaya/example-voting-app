@@ -17,6 +17,10 @@ on:
     paths:
       - 'result/**'
       - '.github/workflows/call-docker-build-result.yaml'
+
+env:
+  MODULE_NAME: result
+
 jobs:
   build-result:
     runs-on: ubuntu-latest
@@ -30,7 +34,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/result
+            ${{ secrets.DOCKERHUB_USERNAME }}/$MODULE_NAME
             # name/app
           tags: |
             type=ref,event=branch
@@ -51,8 +55,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: ./result
-          file: ./result/Dockerfile
+          context: ./$MODULE_NAME
+          #file: ./$MODULE_NAME/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/result:dev
+          #tags: ${{ secrets.DOCKERHUB_USERNAME }}/$MODULE_NAME:dev
