@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       #- image: dockersamples/examplevotingapp_result
-      - image: luizcarloskazuyukifukaya/result
+      - image: luizcarloskazuyukifukaya/result:dev
         name: result
         ports:
         - containerPort: 80
