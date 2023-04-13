@@ -14,9 +14,12 @@ on:
     branches: [dev]
     types:
       - completed
-#  push:
-#    branches:
-#      - 'dev'
+  push:
+    branches:
+      - 'dev'
+    # only when the workflow is modified
+    paths:
+      - '.github/workflows/call-docker-build-vote.yaml'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
