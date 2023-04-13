@@ -105,3 +105,10 @@ jobs:
         helm list
         echo 'ALL kubernetes services'
         kubectl get svc -o wide
+    
+    # Show URL information
+    - name: 'Show URL information'
+      run: |
+        echo 'INFORMATION TO ACCESS THE APPLICATION'
+        chmod 700 ./helm/show-url.sh
+        ./helm/show-url.sh
