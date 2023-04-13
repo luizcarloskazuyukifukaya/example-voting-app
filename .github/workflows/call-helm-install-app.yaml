@@ -6,7 +6,10 @@ name: Build and Deploy to GKE
 
 on:
   workflow_run:
-    workflows: [Build Result docker image]
+    workflows: |
+      - 'Build Result docker image'
+      - 'Build Vote docker image'
+      - 'Build Worker docker image'
     #workflows: [Build Result docker image,Build Vote docker image,Build Worker docker image]
     branches: [dev]
     types:
