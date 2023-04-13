@@ -1,4 +1,4 @@
-name: Build Vote docker image
+name: 'Build Vote docker image'
 # https://docs.docker.com/build/ci/github-actions/
 
 on:

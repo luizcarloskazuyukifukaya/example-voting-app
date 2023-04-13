@@ -1,4 +1,4 @@
-name: Build Worker docker image
+name: 'Build Worker docker image'
 # https://docs.docker.com/build/ci/github-actions/
 
 on:
