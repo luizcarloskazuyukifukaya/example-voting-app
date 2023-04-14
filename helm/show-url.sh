@@ -11,5 +11,5 @@ echo "Vote URL is http://$VOTE_IP:$LB_PORT"
 echo "Vote Server is $VOTE_SERVER"
 
 RESULT_SERVER="$RESULT_IP:$LB_PORT"
-echo "Vote URL is http://$RESULT_IP:$LB_PORT"
-echo "Vote Server is $RESULT_SERVER"
+echo "RESULT URL is http://$RESULT_IP:$LB_PORT"
+echo "RESULT Server is $RESULT_SERVER"
