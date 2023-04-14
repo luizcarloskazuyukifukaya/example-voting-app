@@ -12,13 +12,13 @@ on:
     types:
       - completed
 
-#  push:
-#    branches:
-#      - 'dev'
+  push:
+    branches:
+      - 'dev'
 #    # only when the workflow is modified
-#    paths:
-#      - 'seed-data/**'
-#      - '.github/workflows/call-seed-data.yaml'
+    paths:
+      - 'seed-data/**'
+      - '.github/workflows/call-seed-data.yaml'
 
 # Environment variables available to all jobs and steps in this workflow
 env:
