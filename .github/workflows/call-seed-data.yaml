@@ -87,13 +87,13 @@ jobs:
         echo 'INFORMATION TO ACCESS THE APPLICATION'
         chmod 700 ./helm/show-url.sh
         ./helm/show-url.sh
-        echo 'awk help ...'
-        awk --help
+        #echo 'awk help ...'
+        #awk --help
         echo 'Define variables to access the servers dynamically...'
         export VOTE_IP=$(kubectl get svc $K8S_VOTE_GLB_NAME --no-headers | awk '{print $4}')
         export RESULT_IP=$(kubectl get svc $K8S_RESULT_GLB_NAME --no-headers | awk '{print $4}')
-        echo $VOTE_IP
-        echo $RESULT_IP
+        echo 'Vote portal is http://$VOTE_IP'
+        echo 'Result portal is http://$RESULT_IP'
         echo 'Vote LoadBalancer and Result LoadBalancer determined.'
 
     ##################################################
@@ -102,9 +102,9 @@ jobs:
       run: |
         echo 'Preparing dummy data for test ...'
         echo 'Install tools for data manupulation ...'
-        apt-get update
-        apt-get install -y --no-install-recommends apache2-utils
-        rm -rf /var/lib/apt/lists/*
+        sudo pt-get update
+        sudo apt-get install -y --no-install-recommends apache2-utils
+        sudo rm -rf /var/lib/apt/lists/*
         python ./seed-data/make-data.py
         echo 'Data created!'
         echo 'Accessing $VOTE_IP now ...'
