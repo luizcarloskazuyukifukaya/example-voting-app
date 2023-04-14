@@ -12,6 +12,7 @@ The changes to the original release are as the followings:
   Fukaya)
 - Helm Charts support so the application can be installed with helm command
 - External Load Balancer is introduced for the vote and result web access
+- Countinous Deployment with Argo CD
 
 The following aspect for the enhancement of the microservices architecture are
 not included in the application design/implementation/release:
