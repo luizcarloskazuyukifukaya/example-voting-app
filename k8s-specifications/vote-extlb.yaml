@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: vote-extlb
+  name: vote-extlb
+spec:
+  type: LoadBalancer
+  ports:
+  - name: "vote-extlb"
+    port: 80
+    targetPort: 80
+  selector:
+    app: vote
+  
