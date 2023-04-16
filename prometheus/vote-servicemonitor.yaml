@@ -1,0 +1,29 @@
+####################################
+# ATTENTION:
+# The prometheus exporter for this
+# service (vote) is NOT YET 
+# IMPLEMENTED!!!!
+# Once implemented, prometheus
+# can monitor the service.
+####################################
+
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: prometheus
+    app: vote
+  name: vote-exporter
+  namespace: prometheus
+spec:
+  # This is where the parameters are to be configured based on the exporter
+  endpoints:
+  - port: vote-extlb
+    interval: 30s
+    path: /
+    #path: /metrics
+  jobLabel: app
+  selector:
+    matchLabels:
+      app: vote-extlb

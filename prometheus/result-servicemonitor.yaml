@@ -1,0 +1,29 @@
+####################################
+# ATTENTION:
+# The prometheus exporter for this
+# service (result) is NOT YET 
+# IMPLEMENTED!!!!
+# Once implemented, prometheus
+# can monitor the service.
+####################################
+
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: prometheus
+    app: result
+  name: result-exporter
+  namespace: prometheus
+spec:
+  # This is where the parameters are to be configured based on the exporter
+  endpoints:
+  - port: result-extlb
+    interval: 30s
+    path: /
+    #path: /metrics
+  jobLabel: app
+  selector:
+    matchLabels:
+      app: result-extlb
